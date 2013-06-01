@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-06-01 17:12:15
+  total_work_time: 1
+  bonus: 1
+  pay: 1
+
+two:
+  date: 2013-06-01 17:12:15
+  total_work_time: 1
+  bonus: 1
+  pay: 1

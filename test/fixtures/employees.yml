@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id_card: 1
+  name: MyString
+  join_date: 2013-06-01 15:36:08
+  resign_date: 2013-06-01 15:36:08
+  birth_date: 2013-06-01 15:36:08
+  mobile: 1
+  telephone: 1
+  fax: 1
+  address: MyString
+
+two:
+  id_card: 1
+  name: MyString
+  join_date: 2013-06-01 15:36:08
+  resign_date: 2013-06-01 15:36:08
+  birth_date: 2013-06-01 15:36:08
+  mobile: 1
+  telephone: 1
+  fax: 1
+  address: MyString
