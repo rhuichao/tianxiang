@@ -5,7 +5,7 @@ class CreateSalaries < ActiveRecord::Migration
       t.integer :total_work_time
       t.integer :bonus
       t.integer :pay
-
+      t.integer :employee_id
       t.timestamps
     end
   end

@@ -10,6 +10,7 @@ class CreateEmployees < ActiveRecord::Migration
       t.integer :telephone
       t.integer :fax
       t.string :address
+      t.integer :work_type_id
 
       t.timestamps
     end

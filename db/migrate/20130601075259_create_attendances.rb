@@ -4,7 +4,7 @@ class CreateAttendances < ActiveRecord::Migration
       t.datetime :date
       t.integer :work_time
       t.string :absent_reason
-
+      t.integer :employee_id
       t.timestamps
     end
   end

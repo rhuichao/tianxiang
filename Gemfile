@@ -5,11 +5,8 @@ gem 'rails', '3.2.13'
 gem 'mysql2'
 #gem 'pg'
 gem 'thin'
+gem 'devise', '3.0'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-#gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -38,4 +35,4 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
