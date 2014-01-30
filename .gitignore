@@ -1,5 +1,6 @@
 #rails
 .DS_Store
+assets/
 doc/
 config/database.yml
 tmp/

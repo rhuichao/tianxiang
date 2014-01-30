@@ -6,7 +6,7 @@ gem 'mysql2'
 #gem 'pg'
 gem 'thin'
 gem 'devise', '3.0'
-
+gem 'le'
 
 # Gems used only for assets and not required
 # in production environments by default.
