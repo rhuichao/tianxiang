@@ -8,6 +8,7 @@ log/
 *.pid
 *.cache
 *.rdoc
+*~
 
 #rvm
 .rvmrc
