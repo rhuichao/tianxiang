@@ -1,0 +1,27 @@
+<!-- Fixed navbar -->
+<div class="navbar navbar-default " role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">天翔管理系统</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">员工管理</a></li>
+        <li><a href="#about">考勤管理</a></li>
+        <li><a href="#contact">支取管理</a></li>
+        <li><a href="#contact">工资管理</a></li>
+        <li><a href="#contact">总账管理</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to('注销', destroy_user_session_path, :method => :delete) %></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
