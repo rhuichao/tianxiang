@@ -12,11 +12,11 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">员工管理</a></li>
-        <li><a href="#about">考勤管理</a></li>
-        <li><a href="#contact">支取管理</a></li>
-        <li><a href="#contact">工资管理</a></li>
-        <li><a href="#contact">总账管理</a></li>
+        <li class='<%=@nav_employee %>'><%= link_to('员工管理', employees_path) %></li>
+        <li class='<%=@nav_attendance %>'><%= link_to('考勤管理', attendances_path) %></li>
+        <li class='<%=@nav_pay %>'><%= link_to('支取管理', employees_path) %></li>
+        <li class='<%=@nav_salary %>'><%= link_to('工资管理', salaries_path) %></li>
+        <li class='<%=@nav_summary %>'><%= link_to('总账管理', employees_path) %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to('注销', destroy_user_session_path, :method => :delete) %></li>

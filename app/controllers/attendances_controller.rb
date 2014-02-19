@@ -1,30 +1,33 @@
  #encoding: UTF-8
 
-class EmployeesController < ApplicationController
+class AttendancesController < ApplicationController
 
   def index
+    @nav_attendance = "active"
     @employees = Employee.all
-    @nav_employee = "active"
   end
 
   def new
-  	@employee = Employee.new
+  	@nav_attendance = "active"
+  	@employees = Employee.all
   end
 
 	def create
-		@employee = Employee.new(params[:employee])
-		if @employee.save
-			redirect_to(@employee, :notice => "新建员工成功")
-		else
-			render :action => "new"
+		date = params[:date]
+		total = params[:total]
+		attendances = params[:attendances]
+		attendances.each do |att|
+			p att
 		end
 	end
 
 	def edit
+		@nav_attendance = "active"
 		@employee = Employee.find(params[:id])
 	end
 
 	def show
+		@nav_attendance = "active"
 		@employee = Employee.find(params[:id])
 	end
 

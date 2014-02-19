@@ -1,0 +1,45 @@
+<%= form_for(@employee) do |f| %>
+  <% if @employee.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@employee.errors.count, "error") %> 保存失败:</h2>
+    <ul>
+    <% @employee.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :id_card, "工号" %><br />
+    <%= f.text_field :id_card %>
+  </div> 
+  <div class="field">
+    <%= f.label :name, "姓名" %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :birth_date, "生日" %><br />
+    <%= f.text_field :birth_date %>
+  </div>
+  <div class="field">
+    <%= f.label :mobile, "手机" %><br />
+    <%= f.telephone_field :mobile %>
+  </div>
+  <div class="field">
+    <%= f.label :telephone, "座机" %><br />
+    <%= f.telephone_field :telephone %>
+  </div>
+  <div class="field">
+    <%= f.label :fax, "传真" %><br />
+    <%= f.text_field :fax %>
+  </div>
+  <div class="field">
+    <%= f.label :address, "地址" %><br />
+    <%= f.text_area :address, :rows => 3 %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "保 存" %>
+  </div>
+<% end %>
+<br/>

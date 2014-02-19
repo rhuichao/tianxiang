@@ -3,7 +3,7 @@ Myapp::Application.routes.draw do
 
   match 'home' => 'home#index'
 
-  resources :employees
+  resources :employees, :attendances, :salaries
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

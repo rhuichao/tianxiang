@@ -1,12 +1,21 @@
-<h3>员工列表</h3>
+<h3>员工考勤列表</h3>
  
 <table class="table table-striped">
   <tr>
     <th>工号</th>
     <th>姓名</th>
-		<th>手机</th>
-		<th>座机</th>
-		<th>操作</th>
+		<th>1月</th>
+		<th>2月</th>
+		<th>3月</th>
+		<th>4月</th>
+		<th>5月</th>
+		<th>6月</th>
+		<th>7月</th>
+		<th>8月</th>
+		<th>9月</th>
+		<th>10月</th>
+		<th>11月</th>
+		<th>12月</th>
   </tr>
  
 <% @employees.each do |employee| %>
@@ -24,7 +33,7 @@
  
 <br />
  
-<%= link_to '新建员工', new_employee_path %>
+<%= link_to '新建员工考勤', new_attendance_path %>
 
 
 
