@@ -1,6 +1,38 @@
 <h3>编辑员工</h3>
  
-<%= render 'form' %>
+<%= form_tag("/attendances/update") %>
+  <div class="field">
+    <%= label_tag("year", "年份") %>
+    <%= text_field_tag('year', @year) %>
+    <%= label_tag("year", "月份") %>
+    <%= text_field_tag('month', @month) %>
+    <%= label_tag("total", "满勤工作日") %>
+    <%= text_field_tag('total') %>
+  </div>
+  <table class="table table-striped">
+    <tr>
+      <th>工号</th>
+      <th>姓名</th>
+      <th>工作日</th>
+    </tr>
+   
+    <% @employees.each do |employee| %>
+    <tr>
+      
+      <td><%= employee.id_card %></td>
+      <td><%= employee.name %></td>
+      <td>
+        <%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
+        <%= text_field_tag('attendances[][work_time]', @employee_attendance[employee.id]) %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+  <div class="actions">
+    <%= submit_tag "保 存" %>
+  </div>
+<% $end %>
+<br/>
 
 <%= link_to '查看', @employee %> |
 <%= link_to '返回', employees_path %>

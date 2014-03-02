@@ -1,6 +1,27 @@
-<h3>查看员工</h3>
+<h3>员工信息</h3>
  
-<%= render 'form' %>
+<div class="field">
+  <%= label_tag :id_card, "工号:" %> <%= @employee.id_card %>
+</div> 
+<div class="field">
+  <%= label_tag :name, "姓名:" %> <%= @employee.name %>
+</div>
+<div class="field">
+  <%= label_tag :birth_date, "生日:" %> <%= @employee.birth_date %>
+</div>
+<div class="field">
+  <%= label_tag :mobile, "手机:" %> <%= @employee.mobile %>
+</div>
+<div class="field">
+  <%= label_tag :telephone, "座机:" %> <%= @employee.telephone %>
+</div>
+<div class="field">
+  <%= label_tag :fax, "传真:" %> <%= @employee.fax %>
+</div>
+<div class="field">
+  <%= label_tag :address, "地址:" %> <%= @employee.address %>
+</div>
+
 
 <%= link_to '编辑', edit_employee_path(@employee) %> |
 <%= link_to '返回', employees_path %>

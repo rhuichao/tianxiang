@@ -1,39 +1,40 @@
 <h3>员工考勤列表</h3>
- 
+<%= form_tag("/attendances/search") %>
+	<div class="field">
+		<%= label_tag("year", "选择年份") %>
+		<%= text_field_tag 'year', @year %>
+		<%= submit_tag "查询" %>
+	</div>
+<% $end %>
 <table class="table table-striped">
   <tr>
     <th>工号</th>
     <th>姓名</th>
-		<th>1月</th>
-		<th>2月</th>
-		<th>3月</th>
-		<th>4月</th>
-		<th>5月</th>
-		<th>6月</th>
-		<th>7月</th>
-		<th>8月</th>
-		<th>9月</th>
-		<th>10月</th>
-		<th>11月</th>
-		<th>12月</th>
+
+		<% (1..@months.size).each do |month| %>
+		<th>
+			<% if @year.nil? or @year.empty? or @attendances.size == 0 %>
+				<%= month %>月
+			<% else %>
+				<a href='/attendances/<%= @year %>/<%= month %>/edit'><%= month %>月</a>
+			<% end %>
+		</th>
+		<% end %>
+
   </tr>
- 
-<% @employees.each do |employee| %>
+	<% if !@year.nil? and !@year.empty? %>
+	<% @employees.each do |employee| %>
   <tr>
     <td><%= employee.id_card %></td>
     <td><%= employee.name %></td>
-		<td><%= employee.mobile %></td>
-		<td><%= employee.telephone %></td>
-    <td><%= link_to '查看', employee %> |
-    <%= link_to '编辑', edit_employee_path(employee) %> |
-    <%= link_to '删除', employee, :confirm => '是否确认删除?', :method => :delete %></td>
+		<% (1..@months.size).each do |month| %>
+			<td><%= @employee_attendance[employee.id][month-1] %></td>
+		<% end %>
   </tr>
-<% end %>
+	<% end %>
+	<% end %>
 </table>
  
 <br />
  
 <%= link_to '新建员工考勤', new_attendance_path %>
-
-
-

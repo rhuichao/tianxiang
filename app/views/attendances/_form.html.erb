@@ -1,7 +1,9 @@
 <%= form_tag("/attendances") %>
 	<div class="field">
-    <%= label_tag("date", "日期") %>
-    <%= text_field_tag('date') %>
+    <%= label_tag("year", "年份") %>
+    <%= text_field_tag('year', @year) %>
+    <%= label_tag("year", "月份") %>
+    <%= text_field_tag('month', @month) %>
     <%= label_tag("total", "满勤工作日") %>
     <%= text_field_tag('total') %>
   </div>
@@ -17,7 +19,10 @@
 			
 	    <td><%= employee.id_card %></td>
 	    <td><%= employee.name %></td>
-			<td><%= hidden_field_tag('attendances[][employee[id]', employee.id) %><%= text_field_tag('attendances[][work_time]') %></td>
+			<td>
+				<%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
+				<%= text_field_tag('attendances[][work_time]') %>
+			</td>
 	  </tr>
 		<% end %>
 	</table>
