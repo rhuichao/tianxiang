@@ -1,4 +1,5 @@
 <h3>员工考勤列表</h3>
+
 <%= form_tag("/attendances/search") %>
 	<div class="field">
 		<%= label_tag("year", "选择年份") %>
@@ -28,7 +29,12 @@
     <td><%= employee.id_card %></td>
     <td><%= employee.name %></td>
 		<% (1..@months.size).each do |month| %>
-			<td><%= @employee_attendance[employee.id][month-1] %></td>
+			<% work_time = @employee_attendance[employee.id][month-1] %>
+			<% if work_time == @work_days[month]%>
+				<td class="full_work_time"><%= @employee_attendance[employee.id][month-1] %>(满)</td>
+			<% else %>
+				<td><%= @employee_attendance[employee.id][month-1] %></td>
+			<% end %>
 		<% end %>
   </tr>
 	<% end %>

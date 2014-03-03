@@ -1,8 +1,8 @@
 <%= form_tag("/attendances") %>
 	<div class="field">
-    <%= label_tag("year", "年份") %>
+    <%= label_tag("year", "年份: ") %>
     <%= text_field_tag('year', @year) %>
-    <%= label_tag("year", "月份") %>
+    <%= label_tag("year", "月份: ") %>
     <%= text_field_tag('month', @month) %>
     <%= label_tag("total", "满勤工作日") %>
     <%= text_field_tag('total') %>

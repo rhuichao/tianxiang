@@ -1,13 +1,12 @@
-<h3>编辑员工</h3>
+<h3>编辑考勤</h3>
  
 <%= form_tag("/attendances/update") %>
   <div class="field">
-    <%= label_tag("year", "年份") %>
-    <%= text_field_tag('year', @year) %>
-    <%= label_tag("year", "月份") %>
-    <%= text_field_tag('month', @month) %>
+    <%= @year %>年<%= @month %>月份考勤
+    <%= hidden_field_tag('year', @year) %>
+    <%= hidden_field_tag('month', @month) %>
     <%= label_tag("total", "满勤工作日") %>
-    <%= text_field_tag('total') %>
+    <%= text_field_tag('total', @total) %>
   </div>
   <table class="table table-striped">
     <tr>
@@ -22,8 +21,9 @@
       <td><%= employee.id_card %></td>
       <td><%= employee.name %></td>
       <td>
+        <%= hidden_field_tag('attendances[][id]', @employee_attendance[employee.id].id) %>
         <%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
-        <%= text_field_tag('attendances[][work_time]', @employee_attendance[employee.id]) %>
+        <%= text_field_tag('attendances[][work_time]', @employee_attendance[employee.id].work_time) %>
       </td>
     </tr>
     <% end %>
@@ -32,7 +32,5 @@
     <%= submit_tag "保 存" %>
   </div>
 <% $end %>
-<br/>
 
-<%= link_to '查看', @employee %> |
-<%= link_to '返回', employees_path %>
+<%= link_to '返回', attendances_path %>

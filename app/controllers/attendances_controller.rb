@@ -20,6 +20,12 @@ class AttendancesController < ApplicationController
     		@employees = Employee.all
     		@employee_attendance = Hash.new
     		@months = []
+        
+        @full_work_days = WorkDay.where(date: start_time.midnight..end_time.midnight)
+        @work_days = {}
+        @full_work_days.each do |work_day|
+          @work_days[work_day.date.mon] = work_day.total
+        end
     	end
 	    @attendances.each do |att|
 	    	employee_id = att.employee.id
@@ -41,7 +47,7 @@ class AttendancesController < ApplicationController
   end
 
 	def create
-		@date = Time.local(params[:year], params[:month],15) 
+		@date = Time.local(params[:year], params[:month], 15)
 		@total = params[:total]
 		@attendances = params[:attendances]
 		@attendances.each do |att|
@@ -52,49 +58,44 @@ class AttendancesController < ApplicationController
 			@attendance.employee = @employee
 			@attendance.save
 		end
-		redirect_to(attendances_url, :notice => "员工信息更新成功.")
+
+    WorkDay.create(date: @date, total: @total)
+		redirect_to(attendances_url, :notice => "#{params[:month]}月考勤信息创建成功.")
 	end
 
 	def edit
 		@nav_attendance = "active"
 		@year = params[:year]
-		@month = params[:month]
-		start_date = Time.local(@year.to_i, @month.to_i)
-	  end_date = Time.local(@year.to_i, start_date.mon + 1)
-		
-		@attendances = Attendance.where(date: start_date.midnight..end_date.midnight)
+		@month = params[:month]		
+    @date = Time.local(params[:year], params[:month], 15)
+    @attendances = Attendance.find_all_by_date(@date)
   	if @attendances.size > 0
 			@employees = Employee.all
 	  	@employee_attendance = Hash.new
 	    @attendances.each do |att|
 	    	employee_id = att.employee.id
-	    	@employee_attendance[employee_id] = att.work_time
+	    	@employee_attendance[employee_id] = att
 	    end
+      @total = WorkDay.find_by_date(@date).total
 	  else
-			redirect_to(attendances_url, :notice => "#{@month}月考勤不存在.")
+			redirect_to(attendances_url, :notice => "#{@month}月考勤信息不存在.")
   	end
 	end
 
-	def show
-		@nav_attendance = "active"
-		@employee = Employee.find(params[:id])
-	end
-
 	def update
-		@employee = Employee.find(params[:id])
-		if @employee.update_attributes(params[:employee])
-			redirect_to(@employee, :notice => "员工信息更新成功.")
-		else
-			render :action => "edit"
-		end
+    @date = Time.local(params[:year], params[:month], 15)
+    @attendances = Attendance.find_all_by_date(@date)
+    @total = params[:total]
+    @attendances_param = params[:attendances]
+    @attendances.each do |att|
+      id = att.id
+      index = @attendances_param.index {|o| o[:id].to_i == id }
+      att.update_attributes(work_time: @attendances_param[index][:work_time])
+    end
+
+    WorkDay.find_by_date(@date).update_attributes(total: @total)
+    redirect_to(attendances_url, :notice => "#{params[:month]}月考勤信息更新成功.")
 	end
 
-	def destroy
-	  @employee = Employee.find(params[:id])
-	  @employee.destroy
-	  respond_to do |format|
-	    format.html { redirect_to employees_url }
-	    format.json { head :no_content }
-	  end
-	end
+
 end

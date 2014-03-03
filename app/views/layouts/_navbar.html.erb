@@ -2,12 +2,6 @@
 <div class="navbar navbar-default " role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a class="navbar-brand" href="#">天翔管理系统</a>
     </div>
     <div class="navbar-collapse collapse">
@@ -19,6 +13,7 @@
         <li class='<%=@nav_summary %>'><%= link_to('总账管理', employees_path) %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to(current_user.email, '#') %></li>
         <li><%= link_to('注销', destroy_user_session_path, :method => :delete) %></li>
       </ul>
     </div><!--/.nav-collapse -->

@@ -1,9 +1,15 @@
 Myapp::Application.routes.draw do
+
+  match '/users' => 'home#index'
+  match '/users/password' => 'home#index'
+  match '/users/password/new' => 'home#index'
+  match '/users/sign_up' => 'home#index'
   devise_for :users
 
   match 'home' => 'home#index'
   match '/attendances/search' => 'attendances#search'
   match '/attendances/:year/:month/edit' => 'attendances#edit'
+  match '/attendances/update' => 'attendances#update'
 
   resources :employees, :attendances, :salaries
 

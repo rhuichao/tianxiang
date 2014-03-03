@@ -12,3 +12,6 @@
  *= require_tree .
  */
 
+.full_work_time {
+  color: green;
+}
