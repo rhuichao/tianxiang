@@ -3,12 +3,10 @@
 class AttendancesController < ApplicationController
 
   def index
-    @nav_attendance = "active"
     @months = Array.new(12)
   end
 
   def search
-    @nav_attendance = "active"
     @year = params[:year]
     @months = Array.new(12)	
     if !@year.nil? && !@year.empty?
@@ -42,7 +40,6 @@ class AttendancesController < ApplicationController
   end
 
   def new
-  	@nav_attendance = "active"
   	@employees = Employee.all
   end
 
@@ -64,7 +61,6 @@ class AttendancesController < ApplicationController
 	end
 
 	def edit
-		@nav_attendance = "active"
 		@year = params[:year]
 		@month = params[:month]		
     @date = Time.local(params[:year], params[:month], 15)
@@ -97,5 +93,9 @@ class AttendancesController < ApplicationController
     redirect_to(attendances_url, :notice => "#{params[:month]}月考勤信息更新成功.")
 	end
 
+private
+  def set_nav
+    @nav_attendance = "active"
+  end
 
 end

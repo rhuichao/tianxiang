@@ -1,0 +1,4 @@
+<% if user_signed_in? %>
+<p>您好, <%= current_user.email%>, 欢迎登陆系统! </p>
+<p>上次登陆时间为<%= current_user.last_sign_in_at%>, 如有异常请联系管理员！</p>
+<% end %>

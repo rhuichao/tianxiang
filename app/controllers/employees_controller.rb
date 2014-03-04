@@ -4,7 +4,6 @@ class EmployeesController < ApplicationController
 
   def index
     @employees = Employee.all
-    @nav_employee = "active"
   end
 
   def new
@@ -45,4 +44,9 @@ class EmployeesController < ApplicationController
 	    format.json { head :no_content }
 	  end
 	end
+
+private
+  def set_nav
+    @nav_employee = "active"
+  end
 end

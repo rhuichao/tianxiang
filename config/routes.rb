@@ -7,11 +7,15 @@ Myapp::Application.routes.draw do
   devise_for :users
 
   match 'home' => 'home#index'
-  match '/attendances/search' => 'attendances#search'
+  match '/attendances/search' => 'attendances#search', :as => :attendances_search
   match '/attendances/:year/:month/edit' => 'attendances#edit'
-  match '/attendances/update' => 'attendances#update'
+  match '/attendances/update' => 'attendances#update', :as => :attendances_update
+  
+  match '/withdraws/search' => 'withdraws#search', :as => :withdraws_search
+  match '/withdraws/:year/:month/edit' => 'withdraws#edit'
+  match '/withdraws/update' => 'withdraws#update', :as => :withdraws_update
 
-  resources :employees, :attendances, :salaries
+  resources :employees, :attendances, :salaries, :withdraws
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
