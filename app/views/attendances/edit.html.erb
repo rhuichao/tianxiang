@@ -21,9 +21,12 @@
       <td><%= employee.id_card %></td>
       <td><%= employee.name %></td>
       <td>
-        <%= hidden_field_tag('attendances[][id]', @employee_attendance[employee.id].id) %>
+        <% attendance = @employee_attendance[employee.id] %>
+        <% id = attendance.id if !attendance.nil? %>
+        <% work_time = attendance.work_time if !attendance.nil? %>
+        <%= hidden_field_tag('attendances[][id]', id) %>
         <%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
-        <%= text_field_tag('attendances[][work_time]', @employee_attendance[employee.id].work_time) %>
+        <%= text_field_tag('attendances[][work_time]', work_time) %>
       </td>
     </tr>
     <% end %>

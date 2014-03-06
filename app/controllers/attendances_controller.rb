@@ -3,39 +3,11 @@
 class AttendancesController < ApplicationController
 
   def index
-    @months = Array.new(12)
+    search_by_year(Time.now.year.to_s)
   end
 
   def search
-    @year = params[:year]
-    @months = Array.new(12)	
-    if !@year.nil? && !@year.empty?
-	    start_time = Time.local(@year.to_i)
-	    end_time = Time.local(start_time.year+1)
-	    @attendances = Attendance.where(date: start_time.midnight..end_time.midnight)
-	    @employees = []
-    	if @attendances.size > 0
-    		@employees = Employee.all
-    		@employee_attendance = Hash.new
-    		@months = []
-        
-        @full_work_days = WorkDay.where(date: start_time.midnight..end_time.midnight)
-        @work_days = {}
-        @full_work_days.each do |work_day|
-          @work_days[work_day.date.mon] = work_day.total
-        end
-    	end
-	    @attendances.each do |att|
-	    	employee_id = att.employee.id
-	    	if @employee_attendance[employee_id].nil?
-	    		@employee_attendance[employee_id] = Array.new(12)
-	    	end
-	    	date = att.date
-	    	month = att.date.mon
-	    	@employee_attendance[employee_id][month-1] = att.work_time
-	    	@months << month if !@months.include?(month)
-	    end
-	  end
+    search_by_year(params[:year])
 	  render "index"
   end
 
@@ -49,11 +21,7 @@ class AttendancesController < ApplicationController
 		@attendances = params[:attendances]
 		@attendances.each do |att|
 			@employee = Employee.find(att[:employee_id])
-			@attendance = Attendance.new
-			@attendance.date = @date
-			@attendance.work_time = att[:work_time]
-			@attendance.employee = @employee
-			@attendance.save
+			@attendance = Attendance.create(date: @date, work_time: att[:work_time], employee: @employee)
 		end
 
     WorkDay.create(date: @date, total: @total)
@@ -83,13 +51,22 @@ class AttendancesController < ApplicationController
     @attendances = Attendance.find_all_by_date(@date)
     @total = params[:total]
     @attendances_param = params[:attendances]
-    @attendances.each do |att|
-      id = att.id
-      index = @attendances_param.index {|o| o[:id].to_i == id }
-      att.update_attributes(work_time: @attendances_param[index][:work_time])
+    @attendances_param.each do |it|
+      id = it[:id]
+      work_time = it[:work_time]
+      if id.empty?
+        @employee = Employee.find(it[:employee_id])
+        Attendance.create(date: @date, work_time: work_time, employee: @employee)
+      else
+        index = @attendances.index {|o| o.id == id.to_i }
+        attendance = @attendances[index]
+        p "#{attendance.work_time.to_s}, #{work_time}"
+        attendance.update_attributes(work_time: work_time) if attendance.work_time.to_s != work_time
+      end
     end
 
-    WorkDay.find_by_date(@date).update_attributes(total: @total)
+    work_day = WorkDay.find_by_date(@date)
+    work_day.update_attributes(total: @total) if work_day.total.to_s != @total
     redirect_to(attendances_url, :notice => "#{params[:month]}月考勤信息更新成功.")
 	end
 
@@ -98,4 +75,35 @@ private
     @nav_attendance = "active"
   end
 
+  def search_by_year(year)
+    @year = year
+    @months = Array.new(12) 
+    if !@year.nil? && !@year.empty?
+      start_time = Time.local(@year.to_i)
+      end_time = Time.local(start_time.year+1)
+      @attendances = Attendance.where(date: start_time.midnight..end_time.midnight)
+      @employees = []
+      if @attendances.size > 0
+        @employees = Employee.all
+        @employee_attendance = Hash.new
+        @months = []
+        
+        @full_work_days = WorkDay.where(date: start_time.midnight..end_time.midnight)
+        @work_days = {}
+        @full_work_days.each do |work_day|
+          @work_days[work_day.date.mon] = work_day.total
+        end
+      end
+      @attendances.each do |att|
+        employee_id = att.employee.id
+        if @employee_attendance[employee_id].nil?
+          @employee_attendance[employee_id] = Array.new(12)
+        end
+        date = att.date
+        month = att.date.mon
+        @employee_attendance[employee_id][month-1] = att.work_time
+        @months << month if !@months.include?(month)
+      end
+    end    
+  end
 end

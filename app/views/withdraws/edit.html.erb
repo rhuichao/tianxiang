@@ -1,18 +1,16 @@
-<h3>编辑考勤</h3>
+<h3>编辑费用支取信息</h3>
  
-<%= form_tag(attendances_update_path) %>
+<%= form_tag(withdraws_update_path) %>
   <div class="field">
-    <%= @year %>年<%= @month %>月份考勤
+    <%= @year %>年<%= @month %>月份员工费用支取列表
     <%= hidden_field_tag('year', @year) %>
     <%= hidden_field_tag('month', @month) %>
-    <%= label_tag("total", "满勤工作日") %>
-    <%= text_field_tag('total', @total) %>
   </div>
   <table class="table table-striped">
     <tr>
       <th>工号</th>
       <th>姓名</th>
-      <th>工作日</th>
+      <th>支取金额</th>
     </tr>
    
     <% @employees.each do |employee| %>
@@ -21,9 +19,12 @@
       <td><%= employee.id_card %></td>
       <td><%= employee.name %></td>
       <td>
-        <%= hidden_field_tag('attendances[][id]', @employee_attendance[employee.id].id) %>
-        <%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
-        <%= text_field_tag('attendances[][work_time]', @employee_attendance[employee.id].work_time) %>
+        <% withdraw = @employee_withdraws[employee.id] %>
+        <% id = withdraw.id if !withdraw.nil? %>
+        <% amount = withdraw.amount if !withdraw.nil? %>
+        <%= hidden_field_tag('withdraws[][id]', id) %>
+        <%= hidden_field_tag('withdraws[][employee_id]', employee.id) %>
+        <%= text_field_tag('withdraws[][amount]', amount) %>
       </td>
     </tr>
     <% end %>
@@ -33,4 +34,4 @@
   </div>
 <% $end %>
 <br/>
-<%= link_to '返回', attendances_path %>
+<%= link_to '返回', withdraws_path %>

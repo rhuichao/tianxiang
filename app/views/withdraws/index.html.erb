@@ -1,4 +1,4 @@
-<h3>员工考勤列表</h3>
+<h3>费用支取列表</h3>
 
 <%= form_tag(withdraws_search_path) %>
 	<div class="field">
@@ -8,39 +8,53 @@
 	</div>
 <% $end %>
 <table class="table table-striped">
-  <tr>
+  <thead>
+	<tr>
     <th>工号</th>
     <th>姓名</th>
 
 		<% (1..@months.size).each do |month| %>
 		<th>
-			<% if @year.nil? or @year.empty? or @attendances.size == 0 %>
+			<% if @year.nil? or @year.empty? or @withdraws.size == 0 %>
 				<%= month %>月
 			<% else %>
-				<a href='/attendances/<%= @year %>/<%= month %>/edit'><%= month %>月<br/>(<%= @work_days[month] %>天)</a>
+				<a href='/withdraws/<%= @year %>/<%= month %>/edit'><%= month %>月</a>
 			<% end %>
 		</th>
 		<% end %>
-
+		<th>合计(￥)</th>
   </tr>
+	</thead>
+
 	<% if !@year.nil? and !@year.empty? %>
+	<tbody>
+	<% total = 0 %>
 	<% @employees.each do |employee| %>
   <tr>
     <td><%= employee.id_card %></td>
     <td><%= employee.name %></td>
+		<% sum = 0 %>
 		<% (1..@months.size).each do |month| %>
-			<% work_time = @employee_attendance[employee.id][month-1] %>
-			<% if !work_time.nil? and work_time >= @work_days[month] %>
-				<td class="full_work_time"><%= @employee_attendance[employee.id][month-1] %>(满)</td>
-			<% else %>
-				<td><%= @employee_attendance[employee.id][month-1] %></td>
-			<% end %>
+			<% array = @employee_withdraws[employee.id] %>
+			<% amount = array[month-1] if !array.nil? %>
+			<td><%= amount %></td>
+			<% sum += amount if !amount.nil?%>
 		<% end %>
-  </tr>
+		<% total += sum %>
+    <td><%= sum %></td>
+	</tr>
 	<% end %>
+	</tbody>
+	<tfoot>
+  <tr>
+		<td colspan="<%= @months.size+2 %>">总计</td>
+		<td><%= total %></td>
+	</tr>
+	</tfoot>
 	<% end %>
 </table>
- 
 <br />
  
-<%= link_to '新建员工考勤', new_attendance_path %>
+<%= link_to '新建员工支取', new_withdraw_path %>
+
+

@@ -8,10 +8,10 @@
 	</div>
 <% $end %>
 <table class="table table-striped">
-  <tr>
+	<thead>
+	<tr>
     <th>工号</th>
     <th>姓名</th>
-
 		<% (1..@months.size).each do |month| %>
 		<th>
 			<% if @year.nil? or @year.empty? or @attendances.size == 0 %>
@@ -21,26 +21,33 @@
 			<% end %>
 		</th>
 		<% end %>
-
   </tr>
+	</thead>
+	<tbody>
 	<% if !@year.nil? and !@year.empty? %>
 	<% @employees.each do |employee| %>
   <tr>
     <td><%= employee.id_card %></td>
     <td><%= employee.name %></td>
 		<% (1..@months.size).each do |month| %>
-			<% work_time = @employee_attendance[employee.id][month-1] %>
+			<% array = @employee_attendance[employee.id] %>
+			<% work_time = array[month-1] if !array.nil? %>
 			<% if !work_time.nil? and work_time >= @work_days[month] %>
-				<td class="full_work_time"><%= @employee_attendance[employee.id][month-1] %>(满)</td>
+				<td class="full_work_time"><%= work_time %>(满)</td>
 			<% else %>
-				<td><%= @employee_attendance[employee.id][month-1] %></td>
+				<td><%= work_time %></td>
 			<% end %>
 		<% end %>
   </tr>
 	<% end %>
 	<% end %>
+</tbody>
 </table>
  
 <br />
  
 <%= link_to '新建员工考勤', new_attendance_path %>
+
+
+
+
