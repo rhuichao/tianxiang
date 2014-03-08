@@ -12,7 +12,7 @@
 	<tr>
     <th>工号</th>
     <th>姓名</th>
-		<% (1..@months.size).each do |month| %>
+		<% @months.each do |month| %>
 		<th>
 			<% if @year.nil? or @year.empty? or @attendances.size == 0 %>
 				<%= month %>月
@@ -29,7 +29,7 @@
   <tr>
     <td><%= employee.id_card %></td>
     <td><%= employee.name %></td>
-		<% (1..@months.size).each do |month| %>
+		<% @months.each do |month| %>
 			<% array = @employee_attendance[employee.id] %>
 			<% work_time = array[month-1] if !array.nil? %>
 			<% if !work_time.nil? and work_time >= @work_days[month] %>

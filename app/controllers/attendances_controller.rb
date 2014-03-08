@@ -77,7 +77,7 @@ private
 
   def search_by_year(year)
     @year = year
-    @months = Array.new(12) 
+    @months = [1,2,3,4,5,6,7,8,9,10,11,12]
     if !@year.nil? && !@year.empty?
       start_time = Time.local(@year.to_i)
       end_time = Time.local(start_time.year+1)
@@ -104,6 +104,7 @@ private
         @employee_attendance[employee_id][month-1] = att.work_time
         @months << month if !@months.include?(month)
       end
+      @months.sort!
     end    
   end
 end
