@@ -19,6 +19,8 @@ Myapp::Application.routes.draw do
   match '/salaries/:year/edit' => 'salaries#edit'
   match '/salaries/update' => 'salaries#update', :as => :salaries_update
 
+  match '/summary' => 'summary#index', :as => :summary
+
   resources :employees, :attendances, :salaries, :withdraws
 
   # The priority is based upon order of creation:
