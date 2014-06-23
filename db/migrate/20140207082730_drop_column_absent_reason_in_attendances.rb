@@ -4,6 +4,6 @@ class DropColumnAbsentReasonInAttendances < ActiveRecord::Migration
   end
 
   def down
-  	remove_column :attendances, :absent_reason, :string
+  	add_column :attendances, :absent_reason, :string
   end
 end

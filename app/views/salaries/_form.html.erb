@@ -1,17 +1,17 @@
-<%= form_tag(attendances_path) %>
+<%= form_tag(salaries_path) %>
 	<div class="field">
     <%= label_tag("year", "年份: ") %>
     <%= text_field_tag('year', @year) %>
-    <%= label_tag("month", "月份: ") %>
-    <%= text_field_tag('month', @month) %>
-    <%= label_tag("total", "满勤工作日") %>
-    <%= text_field_tag('total') %>
+    <%= label_tag("month_bonus", "月满勤奖: ") %>
+    <%= text_field_tag('month_bonus', @month_bonus) %>
+    <%= label_tag("year_bonus", "年终奖") %>
+    <%= text_field_tag('year_bonus', @year_bonus) %>
   </div>
 	<table class="table table-striped">
 	  <tr>
 	    <th>工号</th>
 	    <th>姓名</th>
-			<th>工作日</th>
+			<th>薪水</th>
 	  </tr>
 	 
 		<% @employees.each do |employee| %>
@@ -20,8 +20,8 @@
 	    <td><%= employee.id_card %></td>
 	    <td><%= employee.name %></td>
 			<td>
-				<%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
-				<%= text_field_tag('attendances[][work_time]') %>
+				<%= hidden_field_tag('salaries[][employee_id]', employee.id) %>
+				<%= text_field_tag('salaries[][total]') %>
 			</td>
 	  </tr>
 		<% end %>

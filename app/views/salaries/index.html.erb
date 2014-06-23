@@ -1,0 +1,51 @@
+<h3>员工薪水列表</h3>
+
+<%= form_tag(salaries_search_path) %>
+	<div class="field">
+		<%= label_tag("year", "选择年份") %>
+		<%= text_field_tag 'year', @year %>
+		<%= submit_tag "查询" %>
+	</div>
+<% $end %>
+<table class="table table-striped">
+  <thead>
+	<tr>
+    <th>工号</th>
+    <th>姓名</th>
+		<% @years.each do |year| %>
+		<th>
+				<a href='/salaries/<%= year %>/edit'><%= year %>年</a>
+		</th>
+		<% end %>
+  </tr>
+	</thead>
+
+	<% if !@year.nil? and !@year.empty? %>
+	<tbody>
+	<% @employees.each do |employee| %>
+  <tr>
+    <td><%= employee.id_card %></td>
+    <td><%= employee.name %></td>
+		<% @years.each do |year| %>
+			<% hash = @employee_salaries[employee.id] %>
+			<% total = hash[year] if !hash.nil? %>
+			<td><%= number_to_currency(total, unit: "￥", precision: 0) %></td>
+		<% end %>
+	</tr>
+	<% end %>
+	</tbody>
+	<tfoot>
+  <tr>
+		<td colspan="2">总计</td>
+		<% @years.each do |year| %>
+			<td><%= number_to_currency(@total_salaries[year], unit: "￥", precision: 0) %></td>
+		<% end %>
+	</tr>
+	</tfoot>
+	<% end %>
+</table>
+<br />
+ 
+<%= link_to '新建员工薪水', new_salary_path %>
+
+

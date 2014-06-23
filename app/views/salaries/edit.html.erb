@@ -1,0 +1,40 @@
+<h3>编辑员工薪水</h3>
+ 
+<%= form_tag(salaries_update_path) %>
+  <div class="field">
+    <%= @year %>年员工薪水列表
+    <%= hidden_field_tag('year', @year) %>
+    <%= label_tag("month_bonus", "月满勤奖: ") %>
+    <%= text_field_tag('month_bonus', @bonus.month) %>
+    <%= label_tag("year_bonus", "年终奖") %>
+    <%= text_field_tag('year_bonus', @bonus.year) %>
+  </div>
+  <table class="table table-striped">
+    <tr>
+      <th>工号</th>
+      <th>姓名</th>
+      <th>薪水</th>
+    </tr>
+   
+    <% @employees.each do |employee| %>
+    <tr>
+      
+      <td><%= employee.id_card %></td>
+      <td><%= employee.name %></td>
+      <td>
+        <% salary = @employee_salaries[employee.id] %>
+        <% id = salary.id if !salary.nil? %>
+        <% total = salary.total if !salary.nil? %>
+        <%= hidden_field_tag('salaries[][id]', id) %>
+        <%= hidden_field_tag('salaries[][employee_id]', employee.id) %>
+        <%= text_field_tag('salaries[][total]', total) %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+  <div class="actions">
+    <%= submit_tag "保 存" %>
+  </div>
+<% $end %>
+<br/>
+<%= link_to '返回', salaries_path %>
