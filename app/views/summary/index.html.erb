@@ -1,8 +1,10 @@
 <h3>总计</h3>
 <%= form_tag(summary_search_path) %>
   <div class="field">
-    <%= label_tag("year", "选择年份") %>
-    <%= text_field_tag 'year', @year %>
+    <%= label_tag("start_date", "选择开始日期") %>
+    <%= text_field_tag 'start_date', @start_date %>
+    <%= label_tag("end_date", "选择结束日期") %>
+    <%= text_field_tag 'end_date', @end_date %>
     <%= submit_tag "查询" %>
   </div>
 <% $end %>
@@ -10,26 +12,34 @@
   <tr>
     <th>工号</th>
     <th>姓名</th>
-		<th>年薪</th>
-		<th>工时</th>
+		<th>工资标准</th>
+    <th>全年工作日</th>
+		<th>实际工作日</th>
+    <th>实际工资</th>
 		<th>满勤奖</th>
     <th>年终奖</th>
+    <th>总计</th>
     <th>支取</th>
     <th>余额</th>
   </tr>
  
 <% @employees.each do |employee| %>
   <tr>
-    <td><%= employee.id%></td>
+    <td><%= employee.id_card%></td>
     <td><%= employee.name %></td>
-
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
 <% end %>
 </table>
- 
-<br />
- 
-<%= link_to '新建员工', new_employee_path %>
+
 
 
 

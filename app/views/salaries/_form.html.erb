@@ -2,7 +2,7 @@
 	<div class="field">
     <%= label_tag("year", "年份: ") %>
     <%= text_field_tag('year', @year) %>
-    <%= label_tag("month_bonus", "月满勤奖: ") %>
+    <%= label_tag("month_bonus", "满勤奖: ") %>
     <%= text_field_tag('month_bonus', @month_bonus) %>
     <%= label_tag("year_bonus", "年终奖") %>
     <%= text_field_tag('year_bonus', @year_bonus) %>
@@ -11,7 +11,7 @@
 	  <tr>
 	    <th>工号</th>
 	    <th>姓名</th>
-			<th>薪水</th>
+			<th>工资标准</th>
 	  </tr>
 	 
 		<% @employees.each do |employee| %>

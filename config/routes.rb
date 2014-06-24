@@ -20,6 +20,7 @@ Myapp::Application.routes.draw do
   match '/salaries/update' => 'salaries#update', :as => :salaries_update
 
   match '/summary' => 'summary#index', :as => :summary
+  match '/summary/search' => 'summary#search', :as => :summary_search
 
   resources :employees, :attendances, :salaries, :withdraws
 
