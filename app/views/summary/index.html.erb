@@ -12,11 +12,11 @@
   <tr>
     <th>工号</th>
     <th>姓名</th>
-		<th>工资标准</th>
+	<th>工资标准</th>
     <th>全年工作日</th>
-		<th>实际工作日</th>
+	<th>实际工作日</th>
     <th>实际工资</th>
-		<th>满勤奖</th>
+	<th>满勤奖</th>
     <th>年终奖</th>
     <th>总计</th>
     <th>支取</th>
@@ -25,17 +25,19 @@
  
 <% @employees.each do |employee| %>
   <tr>
+    <% id = employee.id %>
     <td><%= employee.id_card%></td>
     <td><%= employee.name %></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td><%= @summary[id]["工资标准"] %></td>
+    <td><%= @summary[id]["全年工作日"] %></td>
+    <td><%= @summary[id]["实际工作日"] %></td>
+    <td><%= number_to_currency(@summary[id]["实际工资"], unit: "", precision: 0) %></td>
+    <td><%= @summary[id]["满勤奖"] %></td>
+    <td><%= @summary[id]["年终奖"] %></td>
+    <td><%= number_to_currency(@summary[id]["总计"], unit: "", precision: 0) %></td>
+    <td><%= number_to_currency(@summary[id]["支取"], unit: "", precision: 0) %></td>
+    <td><%= number_to_currency(@summary[id]["余额"], unit: "", precision: 0) %></td>
+
   </tr>
 <% end %>
 </table>

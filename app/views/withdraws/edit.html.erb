@@ -11,6 +11,7 @@
       <th>工号</th>
       <th>姓名</th>
       <th>支取金额</th>
+      <th>满勤奖</th>
     </tr>
    
     <% @employees.each do |employee| %>
@@ -26,6 +27,7 @@
         <%= hidden_field_tag('withdraws[][employee_id]', employee.id) %>
         <%= text_field_tag('withdraws[][amount]', amount) %>
       </td>
+      <td><%= text_field_tag('withdraws[][bonus]', withdraw.month_bonus) %></td>
     </tr>
     <% end %>
   </table>

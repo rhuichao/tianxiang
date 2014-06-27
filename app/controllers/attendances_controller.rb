@@ -13,25 +13,33 @@ class AttendancesController < ApplicationController
 
   def new
   	@employees = Employee.all
+    now = Time.now
+    @year = now.year
+    @month = now.month - 1
   end
 
 	def create
-		@date = Time.local(params[:year], params[:month], 15)
-		@total = params[:total]
-		@attendances = params[:attendances]
-		@attendances.each do |att|
-			@employee = Employee.find(att[:employee_id])
-			@attendance = Attendance.create(date: @date, work_time: att[:work_time], employee: @employee)
-		end
+		@date = Time.local(params[:year], params[:month])
+    count = WorkDay.where(date: @date).count
+    if(count == 0)
+  		@total = params[:total]
+  		@attendances = params[:attendances]
+  		@attendances.each do |att|
+  			@employee = Employee.find(att[:employee_id])
+  			@attendance = Attendance.create(date: @date, work_time: att[:work_time], employee: @employee)
+  		end
 
-    WorkDay.create(date: @date, total: @total)
-		redirect_to(attendances_url, :notice => "#{params[:month]}月考勤信息创建成功.")
+      WorkDay.create(date: @date, total: @total)
+  		redirect_to(attendances_url, :notice => "#{params[:year]}年#{params[:month]}月考勤信息创建成功.")
+    else
+      redirect_to(attendances_url, :alert => "#{params[:year]}年#{params[:month]}月考勤信息已经存在.")
+    end
 	end
 
 	def edit
 		@year = params[:year]
 		@month = params[:month]		
-    @date = Time.local(params[:year], params[:month], 15)
+    @date = Time.local(params[:year], params[:month])
     @attendances = Attendance.find_all_by_date(@date)
   	if @attendances.size > 0
 			@employees = Employee.all
@@ -47,7 +55,7 @@ class AttendancesController < ApplicationController
 	end
 
 	def update
-    @date = Time.local(params[:year], params[:month], 15)
+    @date = Time.local(params[:year], params[:month])
     @attendances = Attendance.find_all_by_date(@date)
     @total = params[:total]
     @attendances_param = params[:attendances]

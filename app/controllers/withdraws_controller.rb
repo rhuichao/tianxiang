@@ -16,14 +16,30 @@ class WithdrawsController < ApplicationController
     now = Time.now
     @year = now.year
     @month = now.mon - 1
+    a = Attendance.order("date DESC").first
+    b = Bonus.order("date DESC").first
+    date = a.nil? ? nil : a.date
+    bonus = b.nil? ? 0 : b.month
+    work_day = WorkDay.where("date = ?", date).first
+    days = work_day.nil? ? 0 : work_day.total
+
+    attendances = {}
+    Attendance.find_all_by_date(date).each do |e|
+      attendances[e.employee_id] = e.work_time
+    end
+
+    @bonus = {}
+    @employees.each do |e| 
+      @bonus[e.id] = attendances[e.id] < days ? 0 : bonus
+    end
   end
 
   def create
-    @date = Time.local(params[:year], params[:month], 15)
+    @date = Time.local(params[:year], params[:month])
     @withdraws = params[:withdraws]
     @withdraws.each do |it|
       @employee = Employee.find(it[:employee_id])
-      Withdraw.create(date: @date, amount: it[:amount], employee: @employee)
+      Withdraw.create(date: @date, amount: it[:amount], month_bonus: it[:bonus], employee: @employee)
     end
     redirect_to(withdraws_url, :notice => "#{params[:year]}年#{params[:month]}月费用支取信息创建成功.")
   end
@@ -31,7 +47,7 @@ class WithdrawsController < ApplicationController
   def edit
     @year = params[:year]
     @month = params[:month]   
-    @date = Time.local(params[:year], params[:month], 15)
+    @date = Time.local(params[:year], params[:month])
     @withdraws = Withdraw.find_all_by_date(@date)
     if @withdraws.size > 0
       @employees = Employee.all
@@ -46,7 +62,7 @@ class WithdrawsController < ApplicationController
   end
 
   def update
-    @date = Time.local(params[:year], params[:month], 15)
+    @date = Time.local(params[:year], params[:month])
     @withdraws = Withdraw.find_all_by_date(@date)
     @withdraws_param = params[:withdraws]
     @withdraws_param.each do |it|
@@ -54,11 +70,13 @@ class WithdrawsController < ApplicationController
       amount = it[:amount]
       if id.empty?
         @employee = Employee.find(it[:employee_id])
-        Withdraw.create(date: @date, amount: amount, employee: @employee)
+        Withdraw.create(date: @date, amount: amount, month_bonus: it[:bonus], employee: @employee)
       else
         index = @withdraws.index {|o| o.id == id.to_i }
         withdraw = @withdraws[index]
-        withdraw.update_attributes(amount: amount) if withdraw.amount.to_s != amount
+        if withdraw.amount.to_s != amount || withdraw.month_bonus.to_s != it[:bonus]
+          withdraw.update_attributes(amount: amount, month_bonus: it[:bonus])
+        end
       end
     end
     redirect_to(withdraws_url, :notice => "#{params[:year]}年#{params[:month]}月费用支取信息更新成功.")
@@ -89,7 +107,7 @@ private
         end
         date = it.date
         month = it.date.mon
-        @employee_withdraws[employee_id][month-1] = it.amount
+        @employee_withdraws[employee_id][month-1] = it.amount + it.month_bonus
         @months << month if !@months.include?(month)
       end
       @months.sort!
