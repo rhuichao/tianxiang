@@ -17,8 +17,7 @@
     </tr>
    
     <% @employees.each do |employee| %>
-    <tr>
-      
+    <tr class="<%= 'resign' if employee.resigned? %>">
       <td><%= employee.id_card %></td>
       <td><%= employee.name %></td>
       <td>

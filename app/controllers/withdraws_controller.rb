@@ -12,7 +12,7 @@ class WithdrawsController < ApplicationController
   end
 
   def new
-    @employees = Employee.all
+    @employees = Employee.active
     now = Time.now
     @year = now.year
     @month = now.mon - 1

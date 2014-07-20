@@ -12,7 +12,7 @@ class SalariesController < ApplicationController
   end
 
   def new
-    @employees = Employee.all
+    @employees = Employee.active
     now = Time.now
     @year = now.year
   end

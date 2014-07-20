@@ -12,7 +12,7 @@ class AttendancesController < ApplicationController
   end
 
   def new
-  	@employees = Employee.all
+  	@employees = Employee.active
     now = Time.now
     @year = now.year
     @month = now.month - 1

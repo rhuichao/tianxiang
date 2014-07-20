@@ -11,33 +11,39 @@ class SummaryController < ApplicationController
     @end_date = Time.parse(params[:end_date])
     @employees = Employee.all
     @summary = {}
-    date = Salary.order("date").last.date
+    @total = Hash.new(0)
 
-    salaries = get_salaries(date)
-    full_work_days = get_full_work_days(@start_date, @end_date)
-    actual_work_days = get_actual_work_days(@start_date, @end_date)
-    year_bonus = get_year_bonus(date)
-    withdraws = get_withdraws(@start_date, @end_date)
+    salary = Salary.order("date").last
+    if !salary.nil?
+      date = salary.date
+      salaries = get_salaries(date)
+      full_work_days = get_full_work_days(@start_date, @end_date)
+      actual_work_days = get_actual_work_days(@start_date, @end_date)
+      year_bonus = get_year_bonus(date)
+      withdraws = get_withdraws(@start_date, @end_date)
 
-    puts salaries
-    puts full_work_days
-    puts actual_work_days
-    puts year_bonus
-    puts withdraws
-    @employees.each do |e|
-      id = e.id
-      @summary[id] = Hash.new(0)
-      @summary[id]["工资标准"] = get_val(salaries[id])
-      @summary[id]["全年工作日"] = full_work_days
-      @summary[id]["实际工作日"] = get_val(actual_work_days[id])
-      @summary[id]["实际工资"] = @summary[id]["工资标准"] * @summary[id]["实际工作日"] / @summary[id]["全年工作日"]
-      @summary[id]["满勤奖"] = get_val(withdraws[id]["bonus"]) if !withdraws[id].nil?
-      @summary[id]["年终奖"] = get_val(year_bonus) if (@summary[id]["全年工作日"] == @summary[id]["实际工作日"])
-      @summary[id]["总计"] = @summary[id]["实际工资"] + @summary[id]["满勤奖"] + @summary[id]["年终奖"]
-      @summary[id]["支取"] = get_val(withdraws[id]["amount"]) + @summary[id]["满勤奖"] if !withdraws[id].nil?
-      @summary[id]["余额"] = @summary[id]["总计"] - @summary[id]["支取"]
+      salaries.each_key do |key|
+        id = key
+        @summary[id] = Hash.new(0)
+        @summary[id]["工资标准"] = get_val(salaries[id])
+        @summary[id]["全年工作日"] = full_work_days
+        @summary[id]["实际工作日"] = get_val(actual_work_days[id])
+        @summary[id]["实际工资"] = @summary[id]["工资标准"] * @summary[id]["实际工作日"] / @summary[id]["全年工作日"]
+        @summary[id]["满勤奖"] = get_val(withdraws[id]["bonus"]) if !withdraws[id].nil?
+        @summary[id]["年终奖"] = get_val(year_bonus) if (@summary[id]["全年工作日"] == @summary[id]["实际工作日"])
+        @summary[id]["总计"] = @summary[id]["实际工资"] + @summary[id]["满勤奖"] + @summary[id]["年终奖"]
+        @summary[id]["支取"] = get_val(withdraws[id]["amount"]) + @summary[id]["满勤奖"] if !withdraws[id].nil?
+        @summary[id]["余额"] = @summary[id]["总计"] - @summary[id]["支取"]
+
+        @total["工资标准"] += @summary[id]["工资标准"]
+        @total["实际工资"] += @summary[id]["实际工资"]
+        @total["满勤奖"] += @summary[id]["满勤奖"]
+        @total["年终奖"] += @summary[id]["年终奖"]
+        @total["总计"] += @summary[id]["总计"]
+        @total["支取"] += @summary[id]["支取"]
+        @total["余额"] += @summary[id]["余额"]
+      end
     end
-
     @start_date = @start_date.strftime("%Y-%m-%d")
     @end_date = @end_date.strftime("%Y-%m-%d")
     render "index"

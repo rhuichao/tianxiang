@@ -1,0 +1,25 @@
+<ul class="nav nav-tabs nav-justified" role="tablist">
+  <li><a href="<%= employees_path %>">员工列表</a></li>
+  <li class="active"><a href="#">离职员工列表</a></li>
+</ul>
+
+<table class="table table-striped">
+  <tr>
+    <th>工号</th>
+    <th>姓名</th>
+    <th>手机</th>
+    <th>座机</th>
+    <th>操作</th>
+  </tr>
+ 
+<% @employees.each do |employee| %>
+  <tr>
+    <td><%= employee.id_card %></td>
+    <td><%= employee.name %></td>
+    <td><%= employee.mobile %></td>
+    <td><%= employee.telephone %></td>
+    <td><%= link_to '重新入职', employee_entry_path(employee), :confirm => '是否确认重新入职?' %> |
+  <%= link_to '删除', employee, :confirm => '是否确认删除?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>

@@ -3,7 +3,11 @@
 class EmployeesController < ApplicationController
 
   def index
-    @employees = Employee.all
+    @employees = Employee.active
+  end
+
+  def index_resign
+    @employees = Employee.resign
   end
 
   def new
@@ -11,7 +15,11 @@ class EmployeesController < ApplicationController
   end
 
 	def create
-		@employee = Employee.new(params[:employee])
+    last = Employee.last
+    id_card = last.nil? ? 100001 : last.id + 100001
+    @employee = Employee.new(params[:employee])
+    @employee.id_card = id_card
+    @employee.join_date = Time.now
 		if @employee.save
 			redirect_to(@employee, :notice => "新建员工成功")
 		else
@@ -38,12 +46,24 @@ class EmployeesController < ApplicationController
 
 	def destroy
 	  @employee = Employee.find(params[:id])
-	  @employee.destroy
+    @employee.update_attributes(:status => Employee::DISABLE)
 	  respond_to do |format|
 	    format.html { redirect_to employees_url }
 	    format.json { head :no_content }
 	  end
 	end
+
+  def resign
+    @employee = Employee.find(params[:id])
+    @employee.update_attributes(:status => Employee::RESIGN, :resign_date => Time.now)
+    redirect_to(employees_url, :notice => "员工离职成功.")
+  end
+
+  def entry
+    @employee = Employee.find(params[:id])
+    @employee.update_attributes(:status => Employee::ACTIVE, :join_date => Time.now)
+    redirect_to(employee_index_resign_path, :notice => "员工重新入职成功.")
+  end
 
 private
   def set_nav

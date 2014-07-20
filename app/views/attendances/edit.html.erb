@@ -16,19 +16,18 @@
     </tr>
    
     <% @employees.each do |employee| %>
-    <tr>
-      
-      <td><%= employee.id_card %></td>
-      <td><%= employee.name %></td>
-      <td>
-        <% attendance = @employee_attendance[employee.id] %>
-        <% id = attendance.id if !attendance.nil? %>
-        <% work_time = attendance.work_time if !attendance.nil? %>
-        <%= hidden_field_tag('attendances[][id]', id) %>
-        <%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
-        <%= text_field_tag('attendances[][work_time]', work_time) %>
-      </td>
-    </tr>
+    <% attendance = @employee_attendance[employee.id] %>
+      <% if !attendance.nil? %>
+      <tr class="<%= 'resign' if employee.resigned? %>">
+        <td><%= employee.id_card %></td>
+        <td><%= employee.name %></td>
+        <td>
+          <%= hidden_field_tag('attendances[][id]', attendance.id) %>
+          <%= hidden_field_tag('attendances[][employee_id]', employee.id) %>
+          <%= text_field_tag('attendances[][work_time]', attendance.work_time) %>
+        </td>
+      </tr>
+      <% end %>
     <% end %>
   </table>
   <div class="actions">

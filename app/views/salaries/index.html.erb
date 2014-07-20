@@ -23,15 +23,15 @@
 	<% if !@year.nil? and !@year.empty? %>
 	<tbody>
 	<% @employees.each do |employee| %>
-  <tr>
+  <tr class="<%= 'resign' if employee.resigned? %>">
     <td><%= employee.id_card %></td>
     <td><%= employee.name %></td>
-		<% @years.each do |year| %>
-			<% hash = @employee_salaries[employee.id] %>
-			<% total = hash[year] if !hash.nil? %>
-			<td><%= number_to_currency(total, unit: "￥", precision: 0) %></td>
-		<% end %>
-	</tr>
+	   <% @years.each do |year| %>
+       <% hash = @employee_salaries[employee.id] %>
+       <% total = hash[year] if !hash.nil? %>
+       <td><%= number_to_currency(total, unit: "￥", precision: 0) %></td>
+	   <% end %>
+ 	</tr>
 	<% end %>
 	</tbody>
 	<tfoot>

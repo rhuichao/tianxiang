@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140625135946) do
+ActiveRecord::Schema.define(:version => 20140720151245) do
 
   create_table "attendances", :force => true do |t|
     t.datetime "date"
@@ -40,8 +40,9 @@ ActiveRecord::Schema.define(:version => 20140625135946) do
     t.integer  "fax"
     t.string   "address"
     t.integer  "work_type_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+    t.integer  "status",       :default => 1
   end
 
   create_table "salaries", :force => true do |t|

@@ -1,5 +1,8 @@
-<h3>员工列表</h3>
- 
+<ul class="nav nav-tabs nav-justified" role="tablist">
+  <li class="active"><a href="#">员工列表</a></li>
+  <li><a href="<%= employee_index_resign_path %>">离职员工列表</a></li>
+</ul>
+
 <table class="table table-striped">
   <tr>
     <th>工号</th>
@@ -17,7 +20,7 @@
 		<td><%= employee.telephone %></td>
     <td><%= link_to '查看', employee %> |
     <%= link_to '编辑', edit_employee_path(employee) %> |
-    <%= link_to '删除', employee, :confirm => '是否确认删除?', :method => :delete %></td>
+    <%= link_to '离职', employee_resign_path(employee), :confirm => '是否确认离职?' %></td>
   </tr>
 <% end %>
 </table>
@@ -25,6 +28,3 @@
 <br />
  
 <%= link_to '新建员工', new_employee_path %>
-
-
-

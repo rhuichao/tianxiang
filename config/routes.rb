@@ -22,6 +22,10 @@ Myapp::Application.routes.draw do
   match '/summary' => 'summary#index', :as => :summary
   match '/summary/search' => 'summary#search', :as => :summary_search
 
+  match '/employees/resign/:id' => 'employees#resign', :as => :employee_resign
+  match '/employees/entry/:id' => 'employees#entry', :as => :employee_entry
+  match '/employees/index_resign' => 'employees#index_resign', :as => :employee_index_resign
+
   resources :employees, :attendances, :salaries, :withdraws
 
   # The priority is based upon order of creation:

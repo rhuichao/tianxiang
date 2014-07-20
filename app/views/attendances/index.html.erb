@@ -26,19 +26,21 @@
 	<tbody>
 	<% if !@year.nil? and !@year.empty? %>
 	<% @employees.each do |employee| %>
-  <tr>
-    <td><%= employee.id_card %></td>
-    <td><%= employee.name %></td>
-		<% @months.each do |month| %>
-			<% array = @employee_attendance[employee.id] %>
-			<% work_time = array[month-1] if !array.nil? %>
-			<% if !work_time.nil? and work_time >= @work_days[month] %>
-				<td class="full_work_time"><%= work_time %>(满)</td>
-			<% else %>
-				<td><%= work_time %></td>
+		<% array = @employee_attendance[employee.id] %>
+		<% if !array.nil? %>
+		<tr class="<%= 'resign' if employee.resigned? %>">
+	    <td><%= employee.id_card %></td>
+	    <td><%= employee.name %></td>
+			<% @months.each do |month| %>
+				<% work_time = array[month-1] %>
+				<% if !work_time.nil? and work_time >= @work_days[month] %>
+					<td class="full_work_time"><%= work_time %>(满)</td>
+				<% else %>
+					<td><%= work_time %></td>
+				<% end %>
 			<% end %>
+	  </tr>
 		<% end %>
-  </tr>
 	<% end %>
 	<% end %>
 </tbody>

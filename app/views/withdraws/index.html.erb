@@ -30,19 +30,21 @@
 	<tbody>
 	<% total = 0 %>
 	<% @employees.each do |employee| %>
-  <tr>
-    <td><%= employee.id_card %></td>
-    <td><%= employee.name %></td>
-		<% sum = 0 %>
-		<% @months.each do |month| %>
-			<% array = @employee_withdraws[employee.id] %>
-			<% amount = array[month-1] if !array.nil? %>
-			<td><%= amount %></td>
-			<% sum += amount if !amount.nil?%>
+	<% array = @employee_withdraws[employee.id] %>
+		<% if !array.nil? %>
+	  <tr class="<%= 'resign' if employee.resigned? %>">
+	    <td><%= employee.id_card %></td>
+	    <td><%= employee.name %></td>
+			<% sum = 0 %>
+			<% @months.each do |month| %>
+				<% amount = array[month-1] %>
+				<td><%= amount %></td>
+				<% sum += amount if !amount.nil?%>
+			<% end %>
+			<% total += sum %>
+	    <td><%= sum %></td>
+		</tr>
 		<% end %>
-		<% total += sum %>
-    <td><%= sum %></td>
-	</tr>
 	<% end %>
 	</tbody>
 	<tfoot>

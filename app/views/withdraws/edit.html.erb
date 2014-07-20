@@ -15,20 +15,19 @@
     </tr>
    
     <% @employees.each do |employee| %>
-    <tr>
-      
-      <td><%= employee.id_card %></td>
-      <td><%= employee.name %></td>
-      <td>
-        <% withdraw = @employee_withdraws[employee.id] %>
-        <% id = withdraw.id if !withdraw.nil? %>
-        <% amount = withdraw.amount if !withdraw.nil? %>
-        <%= hidden_field_tag('withdraws[][id]', id) %>
-        <%= hidden_field_tag('withdraws[][employee_id]', employee.id) %>
-        <%= text_field_tag('withdraws[][amount]', amount) %>
-      </td>
-      <td><%= text_field_tag('withdraws[][bonus]', withdraw.month_bonus) %></td>
-    </tr>
+      <% withdraw = @employee_withdraws[employee.id] %>
+      <% if !withdraw.nil? %>
+      <tr class="<%= 'resign' if employee.resigned? %>">
+        <td><%= employee.id_card %></td>
+        <td><%= employee.name %></td>
+        <td>
+          <%= hidden_field_tag('withdraws[][id]', withdraw.id) %>
+          <%= hidden_field_tag('withdraws[][employee_id]', employee.id) %>
+          <%= text_field_tag('withdraws[][amount]', withdraw.amount) %>
+        </td>
+        <td><%= text_field_tag('withdraws[][bonus]', withdraw.month_bonus) %></td>
+      </tr>
+      <% end %>
     <% end %>
   </table>
   <div class="actions">
