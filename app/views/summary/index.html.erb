@@ -44,6 +44,7 @@
   </tbody>
   <% end %>
   <% end %>
+  <% if !@total.nil? %>
   <tfoot>
   <tr>
     <td colspan="2">总计</td>
@@ -56,6 +57,7 @@
     <td><%= number_to_currency(@total["余额"], unit: "", precision: 0) %></td>
   </tr>
   </tfoot>
+  <% end %>
 </table>
 
 
